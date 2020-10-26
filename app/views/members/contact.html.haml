@@ -1,0 +1,12 @@
+-# Partial used to render the contact form
+
+.modal-dialog
+  .modal-content.left-align
+    .modal-header
+      %h3.modal-title Contact #{@member.name}
+      %button.close{data:{dismiss:'modal'}}
+        %span
+          &times;
+    .modal-body
+      - params[:email] = @member.user.email
+      = render 'messages/new'

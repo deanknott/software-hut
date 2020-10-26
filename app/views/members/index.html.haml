@@ -1,0 +1,66 @@
+-# View used to display a list of members
+
+- content_for :title, "Members"
+- content_for :header, "Members"
+= render 'layouts/members_page_header'
+
+-unless @members.empty? || @members.nil?
+  -# Filters for the page, including institute, role, search field, and order
+  %button.btn.btn-primary{data:{toggle: 'collapse', target: '#filters', text:{original: 'Filters', swap: 'Close'}}, aria:{expanded: :false}, id: 'filter-btn'}
+    Filters
+  .row.filter-options.collapse{id: 'filters', aria:{hidden: :true, expanded: :false}}
+    .row
+      %form{:action => request.path, :method => 'get', :class =>'simple-form', id:'filter-options'}
+        = hidden_field_tag :search, nil, value: params[:search]
+        = hidden_field_tag :sort, nil, value: params[:sort]
+        .row
+          .search-input
+            %label Institute
+            = select_tag :institute,
+                options_from_collection_for_select(Institution.all,  "id", "name", params[:institute]),
+                                  include_blank: true
+        .row
+          .search-input
+            %label Role
+            = select_tag :role,
+                options_from_collection_for_select(Role.all,  "id", "name", params[:role]),
+                                  include_blank: true
+        .row.search
+          %button{:type =>"submit", :class => 'btn btn-secondary'}
+            .fa.fa-search
+            Apply Filters
+          = link_to 'Clear', '/members', title: "Clear filters", :class => 'btn btn-secondary'
+
+-# For each member, show name, institute, last seen time, and truncated bio
+-# show based on member privacy settings
+- @members.each do |m|
+  .row.box.index-list
+    .row
+      .left-align.col-md-3
+        %h3.name= m.name
+        %h4.institute= m.institution.name
+        -# used to calculate the last seen time
+        - last_seen = Time.now - m.user.last_sign_in_at
+        - time_scale = 'seconds'
+        - if last_seen > 60
+          - last_seen = (last_seen / 60)
+          - time_scale = "minutes"
+          - if last_seen > 60
+            - last_seen = (last_seen / 60)
+            - time_scale = "hours"
+            - if last_seen > 24
+              - last_seen = (last_seen / 24)
+              - time_scale = "Days"
+              - if last_seen > 7
+                - last_seen = (last_seen / 7)
+                - time_scale = 'Weeks'
+                - if last_seen > 30
+                  - last_seen = (last_seen / 30)
+                  - time_scale = 'Months'
+        %h6 Active #{last_seen.floor} #{time_scale} ago
+
+      .left-align.content.bio.col-md-7
+        -if m.bio_privacy_id == 1 || (user_signed_in? && m.bio_privacy_id ==2 && current_user.member.role_id != 4)
+          =sanitize truncate(m.bio, length: 300, escape: false)
+      .col-md-2.right-align
+        = link_to 'View Profile', m,:class => 'btn btn-secondary', data:{turbolinks: false}

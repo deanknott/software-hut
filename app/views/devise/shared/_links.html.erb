@@ -1,0 +1,11 @@
+<%- if controller_name != 'sessions' %>
+  <%= link_to "Log in", login_path, class: 'login' %>
+<% end -%>
+
+<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+  <%= link_to "Sign up", registration_path, class: 'register' %>
+<% end -%>
+
+<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+  <%= link_to "Forgot your password?", forgotten_password_path, class: 'forgotten_password' %>
+<% end -%>

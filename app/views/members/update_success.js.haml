@@ -1,0 +1,7 @@
+-# This view will hide the current modal, re-render the profile
+-# show a success message, and scroll to the top
+
+$('#modalWindow').modal('hide');
+$(".member").html($('#{j render 'member_profile'}'));
+$.flashAlert('Profile Successfully Updated', 'alert-notice');
+$(this).scrollTop(0);

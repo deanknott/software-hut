@@ -1,0 +1,114 @@
+@import 'variables'
+// Course Page
+.page-header.course
+  display: flex
+  text-align: left
+
+  .header-buttons
+    flex-shrink: 0
+    margin-left: auto
+
+  a, button
+    font-size: 1.5em
+    margin-left: auto
+    margin-right: 0
+    line-height: 54.2px
+    max-height: 66.2px
+    min-width: 164px
+
+  a:visited, button:visited
+    color: white
+
+.tab-bar
+  margin-left: 2%
+
+  ul
+    display: flex
+    margin-bottom: 0
+    padding-left: 0
+
+  li
+    border-radius: 8px 8px 0 0
+    font-size: 1.5em
+
+  //.selected
+  //  background-color: $grey-transparent
+  //  color: black
+  //  border-radius: 0
+  //
+  //.selected:hover
+  //  background-color: $grey-transparent
+  //  color: black
+
+.tabs
+  background-color: $grey-transparent
+  margin: 2%
+  margin-top: 0
+
+  .disclaimer
+    padding: 1% 1% 0.5% 1%
+    color: #808080
+
+  .fields
+    overflow: hidden
+    padding-left: 2%
+    padding-right: 2%
+    text-align: left
+
+    p
+      background-color: white
+      padding: 5px
+      white-space: pre-line
+      overflow: auto
+
+  ul
+    list-style: none
+    padding-left: 0
+
+    li
+      margin: 5px
+      display: flex
+
+      h3
+        width: 50%
+
+    p
+      margin-top: 15px
+      width: 50%
+      overflow: auto
+
+  .left-list
+    float: left
+
+  .right-list
+    float: right
+
+  .left-list, .right-list
+    width: 48%
+
+  .tg
+    width: 100%
+    margin: 0
+    margin-bottom: 20px
+    float: none
+
+  #additional-requirements
+    padding: 0%
+    //width: 63%
+
+  #fees
+    padding: 0
+    //width: 33%
+
+.tabs#contact-tab, .tabs#additional-info-tab
+  display: none
+
+#course-button
+  background-color: $grey-transparent
+  color: black
+  border-radius: 0
+
+@media screen and (max-width: 800px)
+  .page-header.course
+    a, button
+      display: block

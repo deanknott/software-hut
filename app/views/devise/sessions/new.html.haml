@@ -1,0 +1,15 @@
+- content_for :title, 'Log In'
+- content_for :header, 'Log In'
+= render 'layouts/standard_header'
+
+.row.login-page
+  .col-sm-6.col-sm-offset-3.col-lg-4.col-lg-offset-4
+    .panel.panel-default.margin-top-20
+      = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .panel-body
+          = f.input :email, autofocus: true
+          = f.input :password
+        .panel-footer.login-button
+          = submit_button 'Log in'
+          .row.margin-top-10
+            = render "devise/shared/links"

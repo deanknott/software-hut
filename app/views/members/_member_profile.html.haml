@@ -1,0 +1,104 @@
+-# This view is used to display the members profile
+
+
+-# Initialise variables to false
+- job_viewable = false
+- email_viewable = false
+- bio_viewable = false
+
+-# If user is signed in and viewing own profile, set all booleans to true
+-# else if signed in and privacy is member, set boolean to true
+- if user_signed_in?
+  - if @member.user.email == current_user[:id]
+    - email_viewable = true
+    - job_viewable = true
+    - bio_viewable = true
+  -elsif current_user.member.role.name != "Pending"
+    -if @member.job_privacy_id == 2
+      - job_viewable = true
+    -if @member.email_privacy_id == 2
+      - email_viewable = true
+    -if @member.bio_privacy_id == 2
+      - bio_viewable = true
+
+-# If member has privacy settings as public, set booleans as public
+-if @member.email_privacy_id == 1
+  -email_viewable = true
+-if @member.job_privacy_id == 1
+  -job_viewable = true
+-if @member.bio_privacy_id == 1
+  -bio_viewable = true
+
+
+-# Initialise edit booleans
+- update_member = false
+- auth_access = false
+-# If user signed in and on own profile, or web admin, set edit boolean as true
+-if user_signed_in?
+  -if @member.user.email == current_user[:id]
+    -update_member = true
+  -elsif (can? :update, Member)
+    - update_member = true
+
+  -# If user signed in and web admin then set auth boolean as true
+  -if (can? :validate, Member) && @member.user.email != current_user[:id]
+    -auth_access = true
+
+  -# If user is a university admin for the member's institution
+  -# set auth and update booleans as true
+  -if current_user.member.role.name == 'University Admin' && current_user.member.institution_id == @member.institution.id
+    - auth_access = true
+    -update_member = true
+
+
+-# Begin actual rendering
+-# Show name
+.row.member-profile
+  .row.name.left-align
+    %h3 Name:
+    %h4= @member.name
+
+  -# show job if job_viewable is true
+  -if job_viewable
+    .row.job.left-align
+      %h3 Position:
+      %h4= @member.job
+
+  -# show institution
+  .row.institute.left-align
+    %h3 Institution:
+    %h4= @member.institution.name
+
+  -# Show email is email_viewable is true
+  -if email_viewable
+    .row.email.left-align
+      %h3 Email Address:
+      %h4= @member.user.email
+
+  -# render divider, and bio if bio_viewable is true
+  .divider
+  -if bio_viewable
+    .row.bio.left-align
+      %h1 Biography:
+      %p=sanitize @member.bio.html_safe
+
+
+  -# if the members email is viewable, display a contact button
+  .row.buttons
+    -if email_viewable
+      .left-align
+        .btn.btn-primary.no-padding.link= link_to 'Contact', contact_member_path(@member), class: 'ajax-modal'
+
+    -# if update member is true, show edit and delete buttons for member
+    -# if auth_access is true, show authorisation button
+    .right-align
+      - if update_member
+        -if @member.role.name != 'Website Admin' || (@member.role.name == 'Website Admin' && current_user.member.id == @member.id)
+          - if current_user.member.role_id <= @member.role_id
+            = link_to 'Delete Account', @member, method: :delete, data: {confirm: 'Are You Sure?'}, class: 'btn btn-primary'
+          .btn.btn-primary.no-padding.link= link_to 'Edit', edit_member_path(@member) + '/', class: 'ajax-modal'
+          .btn.btn-primary.no-padding.link= link_to 'Change Password', change_password_path(@member) + '/', class: 'ajax-modal'
+
+
+      -if auth_access
+        .btn.btn-primary.no-padding.link= link_to 'Change Authorisation', validate_member_path(@member), class: 'ajax-modal'

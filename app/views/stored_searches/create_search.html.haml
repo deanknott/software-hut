@@ -1,0 +1,43 @@
+- content_for :title, "Courses"
+- content_for :header, "Courses"
+
+.box.left-align
+  .contact-form
+    %form{:action => save_search_path, class: 'simple_form message'}
+      .row.field
+        .form-group
+          %label Your email:
+          = text_field_tag :email, nil, value: params[:email],
+                                        class: 'search-term form-control',
+                                        placeholder: 'Email'
+      .row.field
+        .form-group
+          %label Subject:
+          = text_field_tag :subject, nil, value: params[:subject],
+                                          class: 'search-term form-control',
+                                          Placeholder: 'Subject'
+      .row.field
+        .form-group
+          %label Institution:
+          = text_field_tag :institution, nil, value: params[:institution],
+                                              class: 'search-term form-control',
+                                              placeholder: 'Institution'
+      .row.field
+        .form-group
+          %label Full Time:
+          = select_tag :full_time, options_for_select([["Full Time", "1"],
+                                                      ["Part Time", "0"]],
+                                                      params[:full_time]),
+                                   include_blank: true,
+                                   class: 'search-term form-control'
+      .row.field
+        .form-group
+          %label Duration:
+          = text_field_tag :duration, nil, value: params[:duration],
+                                           class: 'search-term form-control',
+                                           placeholder: 'Duration in Years'
+      .row.right-align
+        .save_search
+          %button{:type => "submit", :class => 'btn btn-secondary'}
+            .fa.fa-save
+            Save Search

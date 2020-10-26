@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /scrape
+Noindex: /scrape
+
+User-agent: T-1000
+User-agent: T-800
+Disallow: /+LukePeacock
+Disallow: /+DeanKnott
+Disallow: /+SethFaulkner
+Disallow: /+MatthewPrestwich
+Disallow: /+LukeMarkie

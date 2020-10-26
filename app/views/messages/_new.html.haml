@@ -1,0 +1,18 @@
+-# Used to display the contact form 
+
+= simple_form_for :message, url: send_message_path, remote: true do |m|
+  .contact-form
+    .inputs
+      .row.field
+        = m.input :name, placeholder: 'Name'
+      .row
+        = m.hidden_field :email, value: params[:email]
+      .row.field
+        = m.input :return_address, placeholder: 'Return address'
+      .row.field
+        = m.input :subject, placeholder: 'Subject'
+      .row.field
+        = m.input :body, as: :text, rows: 20, placeholder: 'Comment...', class: 'body'
+    .actions
+      .row.right-align
+        = m.button :submit, value ='Send', class: 'btn btn-secondary btn-send'

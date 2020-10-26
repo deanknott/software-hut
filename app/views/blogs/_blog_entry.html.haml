@@ -1,0 +1,46 @@
+-# This partial shows the actual blog contents.
+-# It will show the sanitized blog content, file is applicable
+-# Then author name, institute, created and updated times,
+
+
+.container.content.left-align
+  = sanitize @blog.content.html_safe
+-unless @blog.file.file.nil?
+  .text-center.file
+    = render 'file'
+.container.content.left-align
+  .divider
+  .author_info
+    %table
+      %tr
+        %td.info
+          %b Written By:
+        %td
+          =link_to @blog.member.name, @blog.member
+      %tr
+        %td.info
+          %b Author's Institution:
+        %td= @blog.member.institution.name
+      %tr
+        %td.info
+          %b Created At:
+        %td= l(@blog.created_at, format: :compact_time)
+      %tr
+        %td.info
+          %b Last Updated:
+        %td= l(@blog.updated_at, format: :compact_time)
+
+
+  -# If the user is signed in and owns the blog or
+  -# is university admin for the institute, or web admin
+  -# add the ability to edit and delete the blog post
+  - if (user_signed_in?)
+    -if ((@blog.member.user.email == current_user[:id]) || ((current_user.member.institution_id == @blog.member.institution_id) && (current_user.member.role.name == 'University Admin')) || (current_user.member.role.name == 'Website Admin'))
+      .buttons.right-align
+        = link_to 'Delete Post', @blog, method: :delete, data: {confirm: 'Are You Sure?'}, class: 'btn btn-primary'
+
+        %button.btn.btn-primary{data:{toggle: 'modal', target: '#editModal'}}
+          Edit
+
+        .modal.fade{id: 'editModal', aria:{hidden: :true}}
+          = render 'edit'

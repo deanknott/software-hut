@@ -1,0 +1,13 @@
+.modal-dialog.member
+  .modal-content.left-align
+    .modal-header
+      %button.close{type: :button, data: {dismiss: :modal}}
+        %span &times
+      %h4.modal-title Refresh Database?
+    .modal-body
+      - confirm_message = 'This may take several hours, all services will be '
+      - confirm_message += ('unavailable during this time. Are you sure?')
+      = link_to 'Refresh Database', scrape_courses_path,
+                                    title: "Refresh the database",
+                                    data: {confirm: confirm_message,
+                                           disable_with: 'Please Wait...'}

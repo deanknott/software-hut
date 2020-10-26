@@ -1,0 +1,14 @@
+-# Used to render the file of a static page if one is present
+
+-# If the file is an image, then render with a link to the image tag
+- if %w{jpg png jpeg gif}.include?(@static_page.custom_file.file.extension)
+  = link_to image_tag(show_file_static_page_url(@static_page)),show_file_static_page_path(@static_page)
+
+- else
+  -# Else, render as an embedded object. If no embedded object can be created
+  -# then display text stating so and providing a link for download
+  %object{data: show_file_static_page_url(@static_page) + '//?zoom=50'}
+    %p
+      It seems you do not have a compatible PDF viewer. Not to worry, please
+      = link_to 'click here', download_file_static_page_url(@static_page), target: '_blank'
+      to download the file.

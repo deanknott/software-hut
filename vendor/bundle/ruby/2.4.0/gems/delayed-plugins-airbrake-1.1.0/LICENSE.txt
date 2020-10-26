@@ -1,0 +1,7 @@
+Originally published as https://gist.github.com/granth/2223758, and later modified and posted under http://stackoverflow.com/questions/12683364/how-to-make-delayed-job-notify-airbrake-when-an-actionmailer-runs-into-an-error.
+
+The original did not specify a license, but the StackOverflow version is implicitly CC BY-SA 3.0.  As this gem is just packaging up that work, it is presumed to be the following license:
+
+Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+
+For more information, please see http://creativecommons.org/licenses/by-sa/3.0/

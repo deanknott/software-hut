@@ -1,0 +1,84 @@
+- content_for :title, "Degree Search - Advanced"
+
+.page-header
+  %h3 Advanced Search
+  %h5.left-align Please Select your Search Criteria Below
+
+.box.header-content
+  %p Tick the checkbox to include results where the field is unspecified.
+  = form_tag courses_path, :method => 'get', novalidate: 'novalidate', :class =>'simple-form' do
+    .search-input
+      .row
+        .col-md-5
+          %label Subject or Degree Name
+        .col-md-5.left-align
+          = text_field_tag :subject, nil, value: params[:subject], :placeholder => 'Subject or Degree', :class => 'search-term'
+      .row
+        .col-md-5
+          %label Institution
+        .col-md-5.left-align
+          = select_tag :institute, options_for_select(@institutions.collect{|i| i.name}.uniq), include_blank: "Institution"
+      .row
+        .col-md-5
+          %label Course Duration
+        .col-md-5.left-align
+          = select_tag :duration, options_for_select(@degrees.collect{|d| d.length}.uniq), include_blank: "Course Duration"
+          = check_box_tag :duration_empty, 'T', false, checked: (true if params[:duration_empty].present?)
+      .row
+        .col-md-5
+          %label Delivery Mode
+        .col-md-5.left-align
+          = select_tag :full_time,
+          options_for_select([["Full Time", "1"], ["Part Time", "0"]], params[:full_time]), include_blank: "Delivery Mode"
+          = check_box_tag :full_time_empty, 'T', false, checked: (true if params[:full_time_empty].present?)
+      -#.row.fees
+          .col-md-5
+            %label Maximum Fee
+          .col-md-5.left-align
+            = number_field_tag :fees
+        .row
+          %label Courses within
+          = text_field_tag :distance, nil, value: params[:distance], class: 'search-term'
+          %label miles of
+          = text_field_tag :place, nil, value: params[:place], class: 'search-term'
+        .row.fees
+        -#.col-md-5
+            %label Fees
+          .col-md-5.left-align
+            - min = Fee.minimum(:fee)
+            - max = Fee.maximum(:fee)
+            %label=min
+            = range_field_tag :fees, min: min, max: max, step: 250
+            %label=max
+          .row.widening_p
+            .col-md-5
+              %label Widening Participation
+            .col-md-5.left-align
+              %ul
+                - Wp.distinct.each do |p|
+                  %li
+                    = check_box_tag "wp_types[]", p.wp_type
+                    = h p.wp_type
+          .row
+            .col-md-5
+              %label Entry Requirements
+            .col-md-5.left-align
+              %ul
+                - IncomingQualification.distinct.each do |p|
+                  %li
+                    = check_box_tag "entry[]", p.name
+                    = h p.name
+          .row
+            .col-md-5
+              %label Eligibility Requirements
+            .col-md-5.left-align
+              %ul
+                - EligibilityRequirement.distinct.each do |p|
+                  %li
+                    = check_box_tag "eligibility[]", p.name
+                    = h p.name
+
+    .search
+      %button{:type =>"submit", :class => 'btn btn-secondary'}
+        .fa.fa-search
+        Search

@@ -1,0 +1,13 @@
+-# This view is used to display the blog index,
+-# renders the blog_list partial
+
+- content_for :title, "Blogs"
+- content_for :header, "Blogs"
+= render 'layouts/blogs_index_header'
+
+.blog-list
+  - if !@blogs.nil?
+    = render 'blog_list'
+  - else
+    .box
+      %h5 No Blogs Found

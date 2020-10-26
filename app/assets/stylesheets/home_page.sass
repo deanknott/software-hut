@@ -1,0 +1,58 @@
+@import 'variables'
+//Home page intro CSS
+.divider
+  border: 1px solid black
+  height: 1px
+  position: relative
+  vertical-align: middle
+  margin: auto $default-margin
+
+//Css for home page search
+.search-and-tweet
+  margin: $default-margin
+  margin-bottom: 1%
+  white-space: nowrap
+
+.home-search
+  margin: 0
+  padding: 0
+  font-size: 1.25*$font-size-base
+
+  .page-header
+    border: none
+
+    .header-content
+      padding: 0
+
+    h3
+      padding-bottom: 5%
+
+    .search-input
+      padding: 2% 0
+      display: block
+      width: auto
+      margin: 0
+
+    .search
+      display: inline-grid
+      padding: 0 1em
+      grid-row-gap: 10%
+      text-align: center
+      width: auto
+
+      a
+        color: $light-blue
+
+      .btn-secondary
+        font-size: 1.25*$font-size-base
+
+//CSS for twitter timeline
+.twitter
+  width: 25%
+  height: 50vh
+  overflow-x: hidden
+  overflow-y: scroll
+  float: right
+  padding: 1em
+  margin: 0
+  display: block

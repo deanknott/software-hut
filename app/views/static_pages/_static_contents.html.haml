@@ -1,0 +1,34 @@
+-# Actually renders the static contents of pages
+
+-# If the page is the 'conference' page, then split the contents
+-# and render them in appropriate format
+- if @static_page.name == 'conference'
+  - conference  = @static_page.contents.split('±')
+  %h2 #{conference[0].html_safe}, #{conference[1].html_safe}
+  %h3 #{conference[2].html_safe}
+  %p=sanitize conference[3].html_safe
+- else
+  -# Else render as santized html safe output
+  %p=sanitize @static_page.contents.html_safe
+
+-# If the static page has a file attached, then render it
+-unless @static_page.custom_file.file.nil?
+  .row
+    .text-center.file
+      = render 'file'
+
+-# If the current page is the contact page,
+-# Then set the email parameter and then render the contact form
+- if @static_page.name == 'contact'
+  .row
+    - params[:email] = 'dknott1@sheffield.ac.uk'
+    = render 'messages/new'
+
+-# If the user is signed in and a web admin, add the edit button for the page
+.row.right-align
+  - if (user_signed_in?) && (can? :update_static_pages, StaticPage)
+    %button.btn.btn-primary{data:{toggle: 'modal', target: '#editModal'}, id: 'edit-btn'}
+      Edit
+
+    .modal.fade{id: 'editModal', aria:{hidden: :true}}
+      = render 'edit_form'

@@ -1,0 +1,47 @@
+-# Search Page header
+-# Ability to search by name/subject and/or institute/location
+-# Also includes pagination results, and ability to save a search
+
+.page-header
+  %h3 #{content_for(:header)}
+  .header-content
+    = form_tag courses_path, :method => 'get', novalidate: 'novalidate', :class =>'simple-form' do
+      - home = false
+      - home = true if content_for(:title) == 'Home'
+      -classes = [("col-md-8" unless home), "no-padding search-input", ("left-align" if home)]
+      %span{class: classes}
+        = text_field_tag :subject, nil, value: params[:subject], :placeholder => 'Subject or Degree', :class => 'search-term'
+        %label and/or
+        = text_field_tag :location, nil, value: params[:location], :placeholder => 'Institute or Location', :class => 'search-term'
+      .search
+        %button{:type =>"submit", :class => 'btn btn-secondary'}
+          .fa.fa-search
+          Search
+        = link_to "Advanced Search", advanced_search_path, title: "Go to Advanced Search page"
+  -if content_for(:header) == 'Courses'
+    .row
+      .col-md-4.left-align
+        .digg_pagination
+          .page_info
+            = page_entries_info @course
+      .col-md-4.col-md-offset-4.right-align
+        = will_paginate @courses,
+          previous_label: '<i class ="fa fa-caret-left"></i>',
+          next_label: '<i class ="fa fa-caret-right"></i>',
+          inner_window: 5,
+          outer_window: 0
+  -elsif content_for(:title) == 'Degree Search'
+    .row
+
+  = form_tag "create-search", :method => 'get', :class => 'simple-form' do
+    = hidden_field_tag :subject, value = params[:subject]
+    = hidden_field_tag :institution, value = params[:institution]
+    = hidden_field_tag :full_time, value = params[:full_time]
+    = hidden_field_tag :duration, value = params[:duration]
+    = hidden_field_tag :distance, value = params[:distance]
+    = hidden_field_tag :location, value = params[:location]
+
+    .save_search
+      %button{:type => "submit", :class => 'btn btn-secondary'}
+        .fa.fa-save
+        Save Search

@@ -1,0 +1,31 @@
+-# Used as the header of the blogs index
+-# Displays blog ordering choice
+-# And ability to create a new blog if the user is signed in
+-# also shows pagination options for changing pages
+
+.page-header
+  %h3 #{content_for(:header)}
+
+  .row.header-content
+    %form{:action => request.fullpath, :method => 'get', :class =>'simple-form ', remote: true}
+      %span.col-md-8.col-md-offset-4.no-padding.search-input
+        %label Order By:
+        = select_tag :sort,
+            options_for_select([ "Last Updated", "Most Recent","Name Alphabetical Ascending",
+                                  "Name Alphabetical Descending"], params[:sort]),
+                                class: 'sort',
+                                onchange: 'this.form.submit()'
+        .col-md-4.col-md-offset-2
+          = submit_tag 'Submit', style: 'visibility: hidden', class: 'submit-btn'
+    - if (user_signed_in? && current_user.member.role != 4)
+      = link_to new_blog_path, method: :get, title: "New", :class => 'new-blog btn btn-secondary' do
+        New Blog
+  .row
+    .col-md-4.left-align
+      .digg_pagination
+        .page_info
+          = page_entries_info @blogs
+    .col-md-4.col-md-offset-4.right-align
+      = will_paginate @blogs,
+        previous_label: '<i class ="fa fa-caret-left"></i>',
+        next_label: '<i class ="fa fa-caret-right"></i>'

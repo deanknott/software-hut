@@ -1,0 +1,11 @@
+-# Used to display a static page
+
+-# Titleize the title and header content and render a standard page header
+- content_for :title, @static_page.name.titleize
+- content_for :header, @static_page.name.titleize
+= render 'layouts/standard_header'
+
+-# Create blog and align content, then render the actual contents
+.box.left-align
+  .page-contents
+    = render 'static_contents'

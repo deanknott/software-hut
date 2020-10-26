@@ -1,0 +1,20 @@
+.col-md-12
+  %table.degree-list.left-align
+    %tr.left-align
+      %th.title.name Degree Name
+      %th.title Institution
+      %th.title Full/Part Time
+      %th.title Location
+      %th.title Length (Years)
+      %th.title View
+    - @courses.each do |c|
+      %tr.course
+        %td= c.name
+        %td= c.department.institution.name
+        - if c.full_time = 'true'
+          %td Full Time
+        - else
+          %td Part Time
+        %td= c.location
+        %td= c.length
+        %td= link_to 'View', c,:class => 'btn btn-secondary', data:{turbolinks: false}

@@ -1,0 +1,177 @@
+- content_for :title, "#{@course.name} - #{@course.department.institution.name}"
+
+.page-header.course
+  %span.header-text
+    %h3= @course.name
+    %h4= @course.department.institution.name
+  %span.header-buttons
+    - if (@editable)
+      %a.btn.btn-secondary#edit{href: edit_course_path(@course)} Edit Course
+    %a.btn.btn-secondary{href: "#{@course.ucas_url}"} View on UCAS
+
+.tab-bar
+  %ul
+    %li.btn.btn-secondary.selected#course-button Course
+    %li.btn.btn-secondary#info-button Additional Info
+    %li.btn.btn-secondary#contact-button Contact
+
+.tabs#course-tab
+  %div.first-div.fields
+    %ul.left-list
+      - if !@course.code.nil?
+        %li
+          %h3 Code
+          %p= @course.code
+      %li
+        %h3 Institute
+        %p= @course.department.institution.name
+      -unless @course.department.name.include? ('Proxy')
+        %li
+          %h3 Department
+          %p= @course.department.name
+
+    %ul.right-list
+      %li
+        %h3 Name
+        %p= @course.name
+      %li
+        %h3 Location
+        %p= @course.location
+
+
+  .col-md-12.no-padding
+    .col-md-6.no-padding.fields
+      %ul
+        %li
+          %h3 Qualification
+          %p= @course.end_qualification.name
+
+  %div.first-div.fields
+    %ul.left-list
+      - if !@course.start_date.nil?
+        %li
+          %h3 Start Date
+          %p= @course.start_date
+      %li
+        %h3 Length
+        %p= "#{@course.length} Years"
+
+    %ul.right-list
+      %li
+        %h3 Study Mode
+        - if @course.full_time
+          %p= "Full Time"
+        - else
+          %p= "Part Time"
+      - if !@course.delivery_mode.nil?
+        %li
+          %h3 Mode of Delivery
+          %p= @course.delivery_mode.name
+
+
+  %div.description.fields
+    %h3 Description
+    - if !@course.description.nil? && !(@course.description.eql? ".") && !(@course.description.eql? '')
+      %p= @course.description.html_safe
+    - else
+      %p No description available.
+  %div.entry-requirements.fields
+    %h3 Entry Requirements
+    - if !@course.entry_requirements.empty?
+      %table.tg.col-md-9.degree-list
+        %tr
+          %th.title Qualification
+          %th.title Grades
+          %th.title Additional Info
+        - @course.entry_requirements.each do |req|
+          %tr.course
+            %td= req.incoming_qualification.name
+            %td= req[:grade]
+            %td= req[:info]
+
+    - if !@course.entry_requirements_info.nil?
+      %p= @course.entry_requirements_info.html_safe
+
+  %p.disclaimer.right-align
+    Information is subject to change, please visit the
+    = link_to 'Course UCAS Page', @course.ucas_url
+    for up to date information.
+
+.tabs#additional-info-tab
+  %div.tables-div.fields
+
+    %div#fees
+      %h3 Fees
+      - if !@course.fees.empty?
+        %table.tg.col-md-9.degree-list
+          %tr
+            %th.title Student Type
+            %th.title Amount (£)
+            %th.title Time Period
+          -@course.fees.each do |fee|
+            %tr.course
+              %td= fee.student_type.name
+              %td= fee[:fee]
+              %td= fee[:time_period]
+
+      - if !@course.fees_info.nil?
+        %p= @course.fees_info.html_safe
+
+    - if !@course.notes.nil? && !@course.notes.empty?
+      %div.additional-notes
+        %h3 Additional Notes
+        %p= @course.notes.html_safe
+
+  %p.disclaimer.right-align
+    Information is subject to change, please visit the
+    = link_to 'Course UCAS Page', @course.ucas_url
+    for up to date information.
+
+.tabs#contact-tab
+  %div.contact-info.fields
+    %ul.left-list
+      %h3= "#{@course.department.institution.name} can be reached via:"
+      %li
+        %h3 Phone Number:
+        - if !@course.department.institution.phone_number.nil?
+          %p= @course.department.institution.phone_number
+        - else
+          %p N/A
+      %li
+        %h3 Email Address:
+        - if !@course.department.institution.email.nil?
+          %p= @course.department.institution.email
+        - else
+          %p N/A
+      %li
+        %h3 Website:
+        - if !@course.department.institution.website.nil?
+          %p
+            %a{href: "http://#{@course.department.institution.website}"} Link to Website
+        - else
+          %p N/A
+    %ul.right-list
+      %h3= "#{@course.department.name} can be reached via:"
+      %li
+        %h3 Phone Number:
+        - if !@course.department.phone_number.nil?
+          %p= @course.department.phone_number
+        - else
+          %p N/A
+      %li
+        %h3 Email Address:
+        - if !@course.department.email.nil?
+          %p= @course.department.email
+        - else
+          %p N/A
+      %li
+        %h3 Website:
+        - if !@course.department.url.nil?
+          %p
+            %a{href: "http://#{@course.department.url}"} Link to Website
+        - else
+          %p N/A
+  %p.disclaimer.right-align
+    Information is subject to change, please visit the
+    = link_to 'Course UCAS Page', @course.ucas_url
+    for up to date information.

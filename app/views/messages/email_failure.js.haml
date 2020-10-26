@@ -1,0 +1,5 @@
+-# Will hide the modal, display an error message, and scroll to the top
+
+$('#modalWindow').modal('hide');
+$.flashAlert('Message not sent. Please ensure all fields are filled out correctly.', 'alert-alert');
+$(this).scrollTop(0);

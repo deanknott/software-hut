@@ -1,0 +1,46 @@
+@import 'variables'
+
+
+//Media Queries
+
+@media screen and (max-width:$grid-float-breakpoint - 1)
+  #search
+    padding-top: 1em
+
+@media screen and (max-width:440px)
+  .home-search
+    .header-content
+      display: flex
+
+      .search-term
+        margin-top: 2%
+        margin-bottom: 2%
+
+//Give twitter  margin, and home page search full width for small view
+@media screen and (max-width: 1050px)
+    .twitter
+      margin: $default-margin
+      width: 50%
+
+    .home-search
+      width: 100%
+    .degree-search-row
+      .filter-box
+        width: 100%
+        .filter-button
+          width: 10vw
+          height: 10vw
+
+      .course-help
+        width: 100%
+
+//Twitter take up full width, wrap white-space,
+//and pad rows on mobile/very small view
+@media screen and (max-width: 600px)
+    .twitter
+      float: none
+
+    .home-search
+      white-space: normal
+      .row
+        padding-right: 2em

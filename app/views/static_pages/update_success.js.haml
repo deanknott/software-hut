@@ -1,0 +1,10 @@
+-# Hide the modal and remove the backdrop
+-# Then re-render the page contents, display a success message
+-# and scroll to the top
+
+$('#editmodal').modal('hide');
+$('.modal-backdrop').remove();
+$('body').removeClass('modal-open')
+$(".page-contents").html($('#{j render 'static_contents'}'));
+$.flashAlert('Page Successfully Updated', 'alert-notice');
+$(this).scrollTop(0);

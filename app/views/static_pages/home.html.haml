@@ -1,0 +1,36 @@
+-# Used for the home page because it differs so much from other static pages
+
+- content_for :title, "Home"
+
+-# Display the FYN logo and render the static content part of the page
+%span
+	= image_tag "fyn.jpg", height:'160', alt: 'Foundation Year Network Logo'
+	.divider
+	.box.left-align
+		.page-contents
+			= render 'static_contents'
+
+		-# If the user is signed in and a web admin, then allow
+		- if (user_signed_in?) && (can? :upload_courses, :uploads)
+			- if (user_signed_in?) && (can? :update_static_pages, StaticPage)
+				%button.btn.btn-primary{data:{toggle: 'modal', target: '#scrapeModal'}}
+					Refresh Database
+
+				.modal.fade{id: 'scrapeModal', aria:{hidden: :true}}
+					= render 'courses/scrape'
+
+
+-# Used to display the twitter feed and search section
+.row.search-and-tweet
+	-# Search section of the home page
+	.col-md-8.page-header.home-search
+		- content_for :header, "Search for a Degree with Foundation Year"
+		= render 'layouts/search_page_header'
+
+
+	-# FYN twitter feed
+	.box.col-md-4.twitter
+		= link_to "Tweets by foundationyear1", 'https://twitter.com/foundationyear1?ref_src=twsrc%5Etfw', :class => 'twitter-timeline'
+
+-# JS for the twitter feed
+%script{:async => "", :src =>"https://platform.twitter.com/widgets.js", :charset => "utf-8"}

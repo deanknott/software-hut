@@ -1,0 +1,10 @@
+-# This view is used to create a new blog post
+-# Renders the form
+
+- content_for :title, "New Blog"
+- content_for :header, "New Blog"
+= render 'layouts/standard_header'
+
+.box.blog
+  .container.content.left-align
+    = render 'form'

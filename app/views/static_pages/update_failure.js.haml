@@ -1,0 +1,5 @@
+-# Re-render edit page, display an error message, and scroll to the top 
+
+$('#modalWindow').html('#{j render template: 'static_pages/edit'}');
+$.flashAlert('An Error Occurred. Please Try Again', 'alert-alert');
+$(this).scrollTop(0);

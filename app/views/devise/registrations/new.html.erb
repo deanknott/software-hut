@@ -1,0 +1,70 @@
+<%=# This view is used when creating a new user account
+   # Includes user and member fields
+%>
+
+<% content_for :title, "Sign up" %>
+<% content_for :header, "Create an Account" %>
+<%= render 'layouts/standard_header'%>
+
+<div class ='box left-align'>
+  <p>Registering for the site is easy. Just fill in the fields below, and We'll get a new account set up
+     for you in no time.</p>
+  <p>Registrations are currently only allowed from email addresses from the <b>ac.uk</b>
+     domain. To register with a different address, please write to fynetwork.foundationyear@durham.ac.uk
+     to request an account.</p>
+</div>
+<div class = 'box row'>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), remote:true) do |f| %>
+    <%= f.error_notification %>
+    <div class="account-details col-md-4">
+      <h3 class='left-align'>Account Details</h3>
+      <div class="form-inputs left-align">
+        <%= f.input :email,
+                    required: true,
+                    autofocus: true ,
+                    input_html: { autocomplete: "email" } %>
+        <%= f.input :password,
+                    required: true,
+                    hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                    input_html: { autocomplete: "new-password" } %>
+        <%= f.input :password_confirmation,
+                    required: true,
+                    input_html: { autocomplete: "new-password" } %>
+      </div>
+    </div>
+    <div class="profile-details col-md-6 col-md-offset-2">
+      <h3 class='left-align'>Profile Details</h3>
+      <div class="form-inputs left-align">
+        <%= f.fields_for :member, Member.new do |m| %>
+          <div class='col-md-8 no-padding'>
+            <%= m.input :title, as: :select, collection: ['Mr', 'Mrs', 'Ms', 'Miss', 'Dr', 'Prof.'], selected: 1 %>
+            <%= m.input :name,
+                        required: true,
+                        autofocus: true%>
+            <%= m.input :job,
+                        input_html: { autocomplete: 'off' } %>
+            <div class='col-md-6 col-md-offset-6 no-padding right-align'>
+                <%= m.input :job_privacy_id, as: :select, collection: @privacies.collect{|p| [ p[:level], p[:id] ] }, selected: 1 %>
+            </div>
+          </div>
+          <div class='bio col-md-12 no-padding'>
+            <%= m.input :bio%>
+            <div class= 'col-md-6 col-md-offset-8 no-padding left-align'>
+                <%= m.input :bio_privacy_id, as: :select, collection: @privacies.collect{|p| [ p[:level], p[:id] ] }, selected: 1 %>
+            </div>
+          </div>
+          <div class="col-md-6 col-md-offset-6 no-padding right-align">
+            <%= m.input :email_privacy_id, as: :select, collection: @privacies.collect{|p| [ p[:level], p[:id] ] }, selected: 1 %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <div class=controls>
+        <%= f.button :submit, "Sign up", class: 'btn btn-secondary sign-up-btn', id: 'sign-up'%>
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
+
+    <% end %>
+</div>

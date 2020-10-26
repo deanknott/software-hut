@@ -1,0 +1,14 @@
+-# This view is used to render the file attached to a blog if applicable
+-# If file is an image then render link to image tag
+-# if file is not image, then render embedded object
+-# if no embedded object can be displayed, show error message and download link
+
+
+- if %w{jpg png jpeg gif}.include?(@blog.file.file.extension)
+  = link_to image_tag(show_file_blog_url(@blog)),download_file_blog_url(@blog)
+- else
+  %object{data: show_file_blog_url(@blog) + '/?zoom=50'}
+    %p
+      It seems you do not have a compatible PDF viewer. Not to worry, please
+      = link_to 'click here', download_file_blog_url(@blog), target: '_blank'
+      to download the file.

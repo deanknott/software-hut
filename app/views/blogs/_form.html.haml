@@ -1,0 +1,25 @@
+= simple_form_for @blog, remote: true do |f|
+  -# This view is the edit form for a blog post
+  -# Renders ability to add name, content and file to a post
+  -# and if editing, remove a current file
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-input
+    .right-align
+      %label
+        %abbr{title: 'required'}*
+        Privacy Setting:
+      = f.select :privacy_id, Privacy.all.map { |p| [p.level, p.id] }
+    = f.input :name, required: true
+    = f.input :content, as: :wysihtml5,  required: true
+    .row
+      .col-md-6
+        = f.input :file, as: :file
+        = f.hidden_field :file_cache
+      - unless @blog.name.nil?
+        .col-md-4.col-md-offset-2.right-align
+          %label Remove Current File
+          = f.check_box :remove_file
+
+  .form-actions.right-align
+    = f.button :submit

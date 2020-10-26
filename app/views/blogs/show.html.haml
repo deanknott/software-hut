@@ -1,0 +1,15 @@
+-# This view is used to show the blog
+-# displays blog if blog is public, or member is logged in
+-# else redirects back to blog index
+
+
+- if @blog.privacy_id == 1 || ((user_signed_in?) && (can? :read, Blog))
+  - content_for :title, "#{@blog[:name]}"
+  - content_for :header_name, @blog.name
+  - content_for :header_date, l(@blog.updated_at, format: :compact_time)
+  = render 'blog_header'
+
+  .box.blog
+    = render 'blog_entry'
+- else
+  redirect_to blogs_path

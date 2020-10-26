@@ -1,0 +1,149 @@
+- content_for :title, "Edit #{@course.name} - #{@course.department.institution.name}"
+
+.page-header.course
+  %span.header-text
+    %h3= @course.name
+    %h4= @course.department.institution.name
+  %a.btn.btn-secondary{href: "./"} Back to Course
+
+%div
+  = simple_form_for @course, remote: true do |course|
+    .modal-header
+      %h4.modal-title Editing Course - Press 'Update Course', in the bottom right of the page, when finished.
+      %h3.modal-title#feedback-msg
+    .modal-body.tabs
+      .privacy.right-align#general-info
+      %h3#feedback-msg1
+      %h3 Main General Info
+      %h4 Name, Location, Course Duration, and UCAS URL can't be empty
+      %h4 Course Duration has to be an integer, containing nothing but numbers
+      = course.input :name, required: true
+      = course.input :description, label: 'Description'
+      = course.input :full_time, label: 'Full Time?', as: :boolean
+      = course.input :location, required: true
+      = course.input :length, label: 'Course Duration in Years (Integer)', required: true
+      = course.input :start_date, label: 'Start Date'
+      = course.input :ucas_url, label: 'UCAS URL', required: true
+      = course.input :institute_url,
+                     label: "Link to course's web page on the on provider's/institution's website"
+      = course.input :code, label: 'Course Code', required: false
+    .modal-body.tabs
+      %h3 Qualification Type
+      = course.input :end_qualification_id, collection: EndQualification.all,
+                                            label: 'Select Qualification Awarded',
+                                            label_method: :name,
+                                            value_method: :id,
+                                            selected: @course.end_qualification_id,
+                                            include_blank: false
+      = simple_fields_for :end_qual do |n|
+        = n.input :name,
+                  label: "Enter New Qualification Awarded. Enter the title of a new qualification if you can't find a suitable one above. If you wish to keep the above selection, keep this section empty or it will be overwritten.",
+                  required: false
+
+    .modal-body.tabs
+      %h3 Delivery Mode
+      = course.input :delivery_mode_id, collection: DeliveryMode.all,
+                                         label: 'Select New Delivery Mode',
+                                         label_method: :name,
+                                         value_method: :id,
+                                         selected: @course.delivery_mode_id,
+                                         include_blank: true
+      = simple_fields_for :del_mode do |n|
+        = n.input :name,
+                  label: "Enter New Delivery Mode. Enter the title of a new delivery mode if you can't find a suitable one above. If you wish to keep the above selection, keep this section empty or it will be overwritten.",
+                  required: false
+
+    .modal-body.tabs#wp-section
+      %h3 Widening Participation
+      %h4 Tick a box if you want to remove that criteria from the course.
+      = simple_fields_for :remove_wps do |n|
+        - @course.wps.each do |wp|
+          = n.input wp.id, label: "Remove '#{wp.wp_type}' entry criteria from course?", as: :boolean
+
+      %h3 Add Widening Participation
+      %h4 Leave the fields empty if you don't wish to add one.
+      = simple_fields_for :wp do |n|
+        = n.input :sel_wp1, collection: Wp.all,
+                           label: 'Select New Widening Participation',
+                           label_method: :wp_type,
+                           value_method: :wp_type,
+                           selected: nil,
+                           include_blank: true,
+                           required: false
+        = n.input :new_wp1,
+                  label: "Enter New Widening Participation. Enter the title of a new widening participation if you can't find a suitable one above. If you wish to keep the above selection, keep this section empty or it will be overwritten.",
+                  required: false
+
+        %button.btn.btn-secondary.selected#add-wp{type: "button"} Add Another
+
+    .modal-body.tabs#fee-section
+      %h3#feedback-msg2
+      %h3 Course Fees
+      %h4 If you want to remove a fee for a student type, tick the box below that student type. Otherwise, both fields need to be filled.
+      %h4 All fees need to be input as flat integers and in pounds. You would enter £13,250.00 as 13250.
+      = simple_fields_for :edit_fees do |n|
+        - @course.fees.each do |fee|
+          = n.input "amount#{fee.student_type_id.to_s}", label: "Fee for a #{fee.student_type.name} student",
+                                 input_html: {value: "#{fee.fee}"}
+          = n.input "time#{fee.id.to_s}", label: "Time period of fee for a #{fee.student_type.name} student",
+                                 input_html: {value: "#{fee.time_period}"}
+          = n.input "remove_#{fee.id}", label: "Remove fee for a #{fee.student_type.name} student?", as: :boolean
+
+      %h3 Add Fee
+      %h4 Leave all fields empty if you don't wish to add a fee, otherwise all fields need to be filled.
+      %h4 As above, all fees need to be integers with nothing but numbers. They will be displayed as £.
+      = simple_fields_for :add_fee do |n|
+        = n.input :stu1, collection: StudentType.all,
+                           label: 'Select Student Type',
+                           label_method: :name,
+                           value_method: :id,
+                           required: false,
+                           include_blank: true
+        = n.input :fee1, label: "Fee (Integer)", required: false
+        = n.input :time1, label: "Time Period of the Fee. e.g. 'Year 1', 'Whole Course'", required: false
+
+        %button.btn.btn-secondary.selected#add-fee{type: "button"} Add Another
+
+      %h3 Additional Fees Info
+      = course.input :fees_info, label: "Additional Fees Info", as: :wysihtml5
+
+    .modal-body.tabs#er-section
+      %h3#feedback-msg3
+      %h3 Entry Requirements
+      %h4 If you want to remove an entry requirement, tick the box below that entry requirement.
+      %h4 The Grade field can't be empty.
+      = simple_fields_for :edit_entry_req do |n|
+        - @course.entry_requirements.each do |req|
+          = n.input "grade#{req.incoming_qualification_id.to_s}",
+                    label: "Required Grades for a '#{req.incoming_qualification.name}' requirement",
+                    input_html: {value: "#{req.grade}"},
+                    required: false
+          = n.input "info#{req.id.to_s}",
+                    label: "Additional info for a '#{req.incoming_qualification.name}' requirement",
+                    input_html: {value: "#{req.info}"},
+                    required: false
+          = n.input "remove_#{req.id}", label: "Remove '#{req.incoming_qualification.name}' as an entry requirement?", as: :boolean
+
+      %h3 Add Entry Requirement
+      %h4 Leave all fields empty if you don't wish to add an entry requirement.
+      %h4 Incoming Qualification and Grade can't be empty when adding.
+      = simple_fields_for :add_entry_req do |n|
+        = n.input :inc_qual1, collection: IncomingQualification.all,
+                             label: 'Select Incoming Qualification',
+                             label_method: :name,
+                             value_method: :id,
+                             required: false,
+                             include_blank: true
+        = n.input :grade1, label: "Required Grades", required: false
+        = n.input :info1, label: "Additional info", required: false
+
+        %button.btn.btn-secondary.selected#add-er{type: "button"} Add Another
+
+      %h3 Additional Entry Requirements Info
+      = course.input :entry_requirements_info,
+                     label: "Additional Entry Requirements Info",
+                     as: :wysihtml5
+    .modal-body.tabs
+      = course.input :notes, label: "Any Other Notes or Info", as: :wysihtml5
+    .modal-footer
+      = course.button :submit

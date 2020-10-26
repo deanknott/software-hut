@@ -1,0 +1,80 @@
+!!!
+%html
+  %head
+    %title Test-project - #{content_for(:title)}
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" }
+    %meta{ :'http-equiv' => 'X-UA-Compatible', content: 'IE=edge' }
+    = stylesheet_link_tag    "application", media: :all
+    = javascript_include_tag "application"
+    = favicon_link_tag '/favicon.ico'
+
+  %body{ class: environment_notice_body_class }
+    = render 'layouts/environment_notice'
+    .flash-messages
+      - flash.each do |name, msg|
+        - next unless name == 'alert' || name == 'notice'
+        .alert.fade.in
+          .container
+            - if name == 'notice'
+              = fa_icon('check', class: 'flash-success')
+            - else
+              = fa_icon('warning', class: 'flash-error')
+            = msg
+            %a{ href: '#', title: 'Hide this message', data: { dismiss: :alert } } Dismiss
+
+
+    %noscript
+      .warning-page-cover
+        .alert.alert-info
+          %h2 Sorry, it appears that you are using a web browser without JavaScript which prevents us offering you a rich online experience.
+          %p Please enable JavaScript or use a different web browser, or alternatively contact the CiCS Helpdesk for assistance.
+
+     %nav#main-nav.navbar.navbar.navbar-default
+      .navbar-header
+        %button.navbar-toggle{ data: { target: ".navbar-collapse", toggle: :collapse}, type: :button}
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        =link_to :root, title: "Go to the home page", identifier: :home, :class=>'navbar-brand' do
+          =image_tag "fyn.jpg", height:'80', alt: 'Foundation Year Network Logo'
+
+      .collapse.navbar-collapse
+        %ul.navbar-nav.navbar-right
+          = navbar_link_to 'Home',:root, title: "Go to the home page", :class => 'nav-item nav-link'
+          = navbar_link_to 'Degrees', '/degree_search', title: "Go to Degree Search Page", :class => 'nav-item nav-link'
+          = navbar_link_to 'Conference','/conference', title: "Go to Conference Page", :class => 'nav-item nav-link'
+          %li.dropdown
+            .dropdown-toggle
+              = navbar_link_to 'About', "/about", title: "About Us", :class => 'dropdown-toggle nav-item nav-link', data:{toggle:'dropdown'}, role: 'hover'
+              %span.caret
+            %ul.dropdown-menu.dropdown-menu-left
+              = navbar_link_to 'Constitution',"/about/constitution", title: "Go our constitution page", :class => 'nav-item nav-link'
+              = navbar_link_to 'News',"/news", title: "Go to our news page", :class => 'nav-item nav-link'
+              = navbar_link_to 'Members',"/members", title: "Go to our members", :class => 'nav-item nav-link'
+              = navbar_link_to 'Get Involved',"/about/get-involved", title: "Learn how to get involved", :class => 'nav-item nav-link'
+              = navbar_link_to 'Contact Us',"/about/contact-us", title: "Find out how to contact us", :class => 'nav-item nav-link'
+              = navbar_link_to 'Privacy Policy',"/about/privacy-policy", title: "Read our privacy policy", :class => 'nav-item nav-link'
+
+          = navbar_link_to 'Help',"/help", title: "Go to Help Page", :class => 'nav-item nav-link'
+          %li.login
+            %button.btn.btn-primary.login-button{action: '/login', title: 'Go to login page'}
+              Login
+
+          -# - if user_signed_in?
+            -#   %ul.nav.navbar-nav.navbar-right
+            -#     %li.dropdown
+            -#       = link_to '#', data: { toggle: :dropdown }, class: 'dropdown-toggle', role: 'button', 'aria-haspopup' => true, 'aria-expanded' => false do
+            -#         = fa_icon 'user', text: current_user.email
+            -#         %b.caret
+            -#       %ul.dropdown-menu
+            -#         %li
+            -#           = link_to destroy_user_session_path, method: :delete, title: "Log out of the system" do
+            -#             = fa_icon 'sign-out', text: 'Log out'
+    #wrap
+      = yield
+
+    %footer#footer
+      .container
+        %p
+          &copy;#{Date.today.year}
+          = link_to 'epiGenesys', 'https://www.epigenesys.org.uk', target: '_blank', title: 'Goto the epiGenesys website'

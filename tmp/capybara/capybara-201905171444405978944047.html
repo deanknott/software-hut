@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head><base href='http://localhost:3000' />
+<title>FYN - Courses</title>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type'>
+<link rel="stylesheet" media="all" href="/assets/application-52bf5f4adb9c3f9fbfe65c0e5cc628da36c00abdeeac44ba18dd6f1439adf429.css" />
+<script src="/assets/application-45402ce77ea8c70054d9ab65d87c0f5e221c0714e6c34d9836749b53a5194556.js"></script>
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+
+</head>
+<body class=''>
+
+<div class='flash-messages'>
+</div>
+<noscript>
+<div class='warning-page-cover'>
+<div class='alert alert-info'>
+<h2>Sorry, it appears that you are using a web browser without JavaScript which prevents us offering you a rich online experience.</h2>
+<p>Please enable JavaScript or use a different web browser, or alternatively contact the CiCS Helpdesk for assistance.</p>
+</div>
+</div>
+</noscript>
+<nav class='navbar navbar navbar-default' id='main-nav' role='navigation'>
+<div class='navbar-header'>
+<button class='navbar-toggle' data-target='.navbar-collapse' data-toggle='collapse' type='button'>
+<span class='icon-bar'></span>
+<span class='icon-bar'></span>
+<span class='icon-bar'></span>
+</button>
+<a title="Go to the home page" identifier="home" class="navbar-brand" href="/"><img height="80" alt="Foundation Year Network Logo" src="/assets/fyn-fccca28de2d0132f4ef8e46a5459a401556fa32d4c4acf7bce2802cccec32d69.jpg" />
+</a></div>
+<div class='collapse navbar-collapse'>
+<ul class='navbar-nav navbar-right'>
+<li><a title="Go to the home page" class="nav-item nav-link" href="/">Home</a></li>
+<li><a title="Go to Degree Search Page" class="nav-item nav-link" href="/degree_search">Degrees</a></li>
+<li><a title="Go to Conference Page" class="nav-item nav-link" href="/about/conference">Conference</a></li>
+<li class='dropdown'>
+<div class='dropdown-toggle disabled' data-toggle='dropdown'>
+<a title="About Us" class="nav-item nav-link" role="hover" href="/about">About</a>
+<span class='caret'></span>
+</div>
+<ul class='dropdown-menu dropdown-menu-left'>
+<li><a title="Go our constitution page" class="nav-item nav-link" href="/about/constitution">Constitution</a></li>
+<li><a title="Go to our blogs page" class="nav-item nav-link" href="/blogs">Blog</a></li>
+<li><a title="Go to our members" class="nav-item nav-link" href="/members">Members</a></li>
+<li><a title="Learn how to get involved" class="nav-item nav-link" href="/about/get_involved">Get Involved</a></li>
+<li><a title="Find out how to contact us" class="nav-item nav-link" href="/about/contact">Contact Us</a></li>
+<li><a title="Read our privacy policy" class="nav-item nav-link" href="/about/privacy_policy">Privacy Policy</a></li>
+</ul>
+</li>
+<li><a title="Go to Help Page" class="nav-item nav-link" href="/about/help">Help</a></li>
+<li class='login'>
+<a title="go to Login Page" class="login-button btn btn-primary" href="/login">Login</a>
+</li>
+</ul>
+</div>
+</nav>
+<div id='wrap'>
+<div class='page-header'>
+<h3>Courses</h3>
+<div class='header-content'>
+<form novalidate="novalidate" class="simple-form" action="/courses" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+<span class='col-md-8 no-padding search-input'>
+<input type="text" name="subject" id="subject" value="Computer Science" placeholder="Subject or Degree" class="search-term" />
+<label>and/or</label>
+<input type="text" name="location" id="location" placeholder="Institute or Location" class="search-term" />
+</span>
+<div class='search'>
+<button class='btn btn-secondary' type='submit'>
+<div class='fa fa-search'></div>
+Search
+</button>
+<a title="Go to Advanced Search page" href="/degree_search/advanced">Advanced Search</a>
+</div>
+</form>
+
+</div>
+<div class='row'>
+<div class='col-md-4 left-align'>
+<div class='digg_pagination'>
+<div class='page_info'>
+No entries found
+</div>
+</div>
+</div>
+<div class='col-md-4 col-md-offset-4 right-align'>
+
+</div>
+</div>
+<form class="simple-form" action="create-search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+<input type="hidden" name="subject" id="subject" value="Computer Science" />
+<input type="hidden" name="institution" id="institution" />
+<input type="hidden" name="full_time" id="full_time" value="" />
+<input type="hidden" name="duration" id="duration" value="" />
+<input type="hidden" name="distance" id="distance" />
+<input type="hidden" name="location" id="location" />
+<div class='save_search'>
+<button class='btn btn-secondary' type='submit'>
+<div class='fa fa-save'></div>
+Save Search
+</button>
+</div>
+</form>
+
+</div>
+
+<div class='row'>
+<div class='col-md-12'>
+<table class='degree-list left-align'>
+<tr class='left-align'>
+<th class='title name'>Degree Name</th>
+<th class='title'>Institution</th>
+<th class='title'>Full/Part Time</th>
+<th class='title'>Location</th>
+<th class='title'>Length (Years)</th>
+<th class='title'>View</th>
+</tr>
+</table>
+</div>
+
+</div>
+
+</div>
+<footer id='footer'>
+<a class="footer-link" href="/blogs">News</a>
+<a class="footer-link" href="/about/contact">Contact</a>
+<a class="footer-link" href="/about">About</a>
+<a class="footer-link" href="/about/get_involved">Get Involved</a>
+<a class="footer-link" href="/about/privacy_policy">Privacy Policy</a>
+<p class='footer-copyright'>
+&copy;2019 Foundation Year Network &
+<a target="_blank" title="Goto University of Sheffield website" href="https://www.sheffield.ac.uk">University of Sheffield</a>
+students: Luke Peacock, Seth Faulkner, Mathew Prestwich, Dean Knott, Luke Markie
+</p>
+</footer>
+</body>
+</html>

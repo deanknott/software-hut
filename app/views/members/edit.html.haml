@@ -1,0 +1,39 @@
+-# Partial used to display the edit form for members
+-# Ability to edit member email privacy, name job, job privacy
+-# bio, bio_privacy
+
+.modal-dialog.member
+  .modal-content.left-align
+    = simple_form_for @member, remote: true do |m|
+      .modal-header
+        %button.close{type: :button, data: {dismiss: :modal}}
+          %span &times
+        %h4.modal-title Editing Member Profile
+      .modal-body
+        .privacy.right-align
+          = m.input :email_privacy_id, collection: Privacy.all,
+                                     label_method: :level,
+                                     value_method: :id,
+                                     selected: @member.email_privacy_id,
+                                     required: true
+        = m.input :title, collection: ['Mr', 'Mrs', 'Ms', 'Miss', 'Dr', 'Prof.'],
+                          selected: @member.title,
+                          include_blank: false
+        = m.input :name, required: true
+        = m.input :job
+        .privacy.right-align
+          = m.input :job_privacy_id, collection: Privacy.all,
+                                     label_method: :level,
+                                     value_method: :id,
+                                     selected: @member.job_privacy_id,
+                                     required: true
+        = m.input :bio, as: :wysihtml5, label: 'Biography'
+        .privacy.right-align
+          = m.input :bio_privacy_id, collection: Privacy.all,
+                                     label_method: :level,
+                                     value_method: :id,
+                                     selected: @member.bio_privacy_id,
+                                     required: true
+          = m.association :account_privacy, as: :hidden
+      .modal-footer
+        = m.button :submit

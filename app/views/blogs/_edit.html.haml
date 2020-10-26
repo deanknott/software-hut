@@ -1,0 +1,9 @@
+.modal-dialog.modal-lg.left-align
+  -# This view is opened a modal and used to render the edit form
+  .modal-content
+    .modal-header
+      %h3.modal-title Edit this Blog
+      %button.close{data:{dismiss:'modal'}}
+        %span &times;
+    .modal-body
+      =render 'form'

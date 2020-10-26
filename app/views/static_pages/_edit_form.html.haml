@@ -1,0 +1,50 @@
+-# this is the form used to edit the contents of a static page
+
+-# If the current page is the conference page then display the conference form
+-# This version of the form includes more sections for title, date, and location
+- if @static_page.name == 'conference'
+  .modal-dialog
+    .modal-content.left-align
+      - conference  = @static_page.contents.split('±')
+      = simple_form_for :conference, url: static_page_path, method: 'patch', remote: true do |p|
+        .modal-header
+          %button.close{type: :button, data: {dismiss: :modal}}
+            %span &times
+          %h4.modal-title Editing #{@static_page.name.titleize} Information
+        .modal-body
+          -# Form inputs, file_cache maintains file if page is refrehsed.ß
+          = p.input :conf_name, input_html: {value: conference[2]}
+          = p.input :location, input_html: {value: conference[1]}
+          = p.input :date, input_html: {value: conference[0]}
+          = p.input :content, as: :wysihtml5, input_html: {value: conference[3]}
+          .row
+            .col-md-6
+              = p.input :custom_file, as: :file
+              = p.hidden_field :custom_file_cache
+            .col-md-4.col-md-offset-2.right-align
+              %label Remove Current File
+              = p.check_box :remove_custom_file
+        .modal-footer
+          = p.button :submit, id: 'submit-btn'
+
+- else
+  -# If current page is not conference, then display the standard form
+  .modal-dialog.member
+    .modal-content.left-align
+      = simple_form_for @static_page, remote: true do |p|
+        .modal-header
+          %button.close{type: :button, data: {dismiss: :modal}}
+            %span &times
+          %h4.modal-title Editing #{@static_page.name.titleize} Information
+        .modal-body
+          = p.input :contents, as: :wysihtml5
+          .row
+            -# Add or remove a custom file
+            .col-md-6
+              = p.input :custom_file, as: :file
+              = p.hidden_field :custom_file_cache
+            .col-md-4.col-md-offset-2.right-align
+              %label Remove Current File
+              = p.check_box :remove_custom_file
+        .modal-footer
+          = p.button :submit

@@ -1,0 +1,6 @@
+-# This view will render an error and scroll to the top of the page
+-# Used when an error occurs while creating a new blog post
+
+$.flashAlert('An Error Occurred. Please Try Again', 'alert-alert');
+$('.btn btn-default').removeAttr('disabled');
+$(this).scrollTop(0);

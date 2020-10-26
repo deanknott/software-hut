@@ -1,0 +1,9 @@
+-# This view is used to render the member_profile partial
+
+- content_for :title, "#{@member[:name]}"
+- content_for :header, "#{@member[:name]}"
+= render 'layouts/standard_header'
+
+
+.box.member
+  = render 'member_profile'

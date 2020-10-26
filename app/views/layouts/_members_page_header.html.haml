@@ -1,0 +1,33 @@
+-# Members index header
+-# shows ability to search results, sort them, and pagination options
+
+.page-header
+  %h3 #{content_for(:header)}
+
+  .row.header-content
+    %form{:action => request.fullpath, :method => 'get', :class =>'simple-form '}
+      = hidden_field_tag :institute, nil, value: params[:institute]
+      = hidden_field_tag :role, nil, value: params[:role]
+      %span.col-md-6.col-md-offset-4.no-padding.search-input
+        = text_field_tag :search, nil, :placeholder => 'Search Members' , value: params[:search], :class => 'search-term'
+      .search
+        %button{:type =>"submit", :class => 'btn btn-secondary', id: 'search-btn'}
+          .fa.fa-search
+          Search
+      %span.col-md-6.col-md-offset-4.no-padding.search-input
+        %label Order By:
+        = select_tag :sort,
+            options_for_select([ "Last Active", "Name Alphabetical Ascending",
+                                  "Name Alphabetical Descending"], params[:sort]),
+                                class: 'sort',
+                                onchange: 'this.form.submit()'
+
+  .row
+    .col-md-4.left-align
+      .digg_pagination
+        .page_info
+          = page_entries_info @members
+    .col-md-4.col-md-offset-4.right-align
+      = will_paginate @members,
+        previous_label: '<i class ="fa fa-caret-left"></i>',
+        next_label: '<i class ="fa fa-caret-right"></i>'

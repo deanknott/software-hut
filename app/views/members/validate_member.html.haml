@@ -1,0 +1,13 @@
+-# this partial is used to change a member's authorisation level
+
+.modal-dialog
+  .modal-content.left-align
+    = simple_form_for :auth, remote: true do |a|
+      .modal-header
+        %button.close{type: :button, data: {dismiss: :modal}}
+          %span &times
+        %h4.modal-title Edit #{@member.name}'s Authorisation Level
+      .modal-body
+        = a.select :role, options_from_collection_for_select(Role.where('id >= :current', current: current_user.member.role_id), "id", "name", @member.role_id)
+      .modal-footer
+        = a.button :submit, value: 'Update Authorisation Level', data:{disable_with: 'Please Wait...'}

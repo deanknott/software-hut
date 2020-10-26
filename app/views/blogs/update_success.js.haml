@@ -1,0 +1,9 @@
+-# This will close the modal window, re-render the blog contents,
+-# Display a success message, and scroll to the top of the window
+
+$('#modalWindow').modal('hide');
+$('.modal-backdrop').remove();
+$('body').removeClass('modal-open')
+$(".blog").html($('#{j render 'blog_entry'}'));
+$.flashAlert('Blog Successfully Updated', 'alert-notice');
+$(this).scrollTop(0);

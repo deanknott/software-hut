@@ -1,0 +1,11 @@
+development: &defaults
+  adapter: postgresql
+  min_messages: warning
+  host: epi-stu-hut-dev-dbs2.shef.ac.uk
+  username: aca17lp
+  password: '9ce70aeeda05db0745b87b759d278cd0'
+  database: aca17lp_dev4
+
+test:
+  <<: *defaults
+  database: aca17lp_test

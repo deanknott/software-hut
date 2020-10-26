@@ -1,0 +1,17 @@
+%h1 Good news!
+%p
+  There is new courses matching your search:
+  %p
+    Subject: #{@stored_search.name}
+  %p
+    Institution: #{@stored_search.institution}
+  %p
+    Duration: #{@stored_search.length}
+
+%p
+
+%p
+  %a{:href => @url} You can view the available courses here.
+
+%p
+  %a{:href => @unsubscribe} Unsubscribe from this search here.

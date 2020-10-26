@@ -1,0 +1,87 @@
+- content_for :title, "Degree Search"
+- content_for :header, "Search for a Degree w/ Foundation Year Course"
+= render 'layouts/search_page_header'
+
+.box
+  %p
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia
+    accumsan nibh luctus sollicitudin. Pellentesque viverra eget mi nec viverra.
+    Vivamus non odio diam. Quisque massa enim, egestas vitae ullamcorper in,
+    fermentum sed enim. Etiam sit amet est sit amet quam ornare pulvinar non sed
+    sem. Vestibulum vel elit vulputate, aliquam felis id, sagittis nulla. In hac
+    habitasse platea dictumst. Nulla dapibus placerat blandit. Aenean tincidunt
+    fringilla elit, ut consequat lorem vestibulum vel.
+
+.degree-search-row.row
+  .filter-box.box.col-md-4
+    %h3 Subjects A-Z:
+    - ('A'..'Z').each do |i|
+      = link_to i.to_s, courses_path(letter: i.to_s),:class => 'btn btn-secondary filter-button'
+
+
+
+  .course-help.col-md-7
+    %h3 Course Help:
+    %button.btn.btn-tertiary{data:{toggle: 'modal', target: '#exampleModal'}}
+      Example
+
+    %button.btn.btn-tertiary{data:{toggle: 'modal', target: '#typeModal'}}
+      Degree Type
+    %button.btn.btn-tertiary{data:{toggle: 'modal', target: '#audienceModal'}}
+      Target Audience
+    %button.btn.btn-tertiary{data:{toggle: 'modal', target: '#deliveryModal'}}
+      Mode of Delivery
+
+
+
+
+
+    .modal.fade{id: 'exampleModal', aria:{hidden: :true}}
+      .modal-dialog.modal-lg.left-align
+        .modal-content
+          .modal-header
+            %h3.modal-title Example
+            %button.close{data:{dismiss:'modal'}}
+              %span
+                &times;
+          .modal-body
+            %p
+              This is an example description
+
+
+    .modal.fade{id: 'typeModal', aria:{hidden: :true}}
+      .modal-dialog.modal-lg.left-align
+        .modal-content
+          .modal-header
+            %h3.modal-title Degree Type
+            %button.close{data:{dismiss:'modal'}}
+              %span
+                &times;
+          .modal-body
+            %p
+              This is an example description
+
+    .modal.fade{id: 'audienceModal', aria:{hidden: :true}}
+      .modal-dialog.modal-lg.left-align
+        .modal-content
+          .modal-header
+            %h3.modal-title Target Audience
+            %button.close{data:{dismiss:'modal'}}
+              %span
+                &times;
+          .modal-body
+            %p
+              This is an example description
+
+
+    .modal.fade{id: 'deliveryModal', aria:{hidden: :true}}
+      .modal-dialog.modal-lg.left-align
+        .modal-content
+          .modal-header
+            %h3.modal-title Mode of Delivery
+            %button.close{data:{dismiss:'modal'}}
+              %span
+                &times;
+          .modal-body
+            %p
+              This is an example description

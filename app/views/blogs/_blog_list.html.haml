@@ -1,0 +1,16 @@
+-# This will render each blog in the index
+-# Shows member name, member institute, blog created and updated times,
+-# And truncated content preview, plus button to view entry
+
+
+- @blogs.each do |b|
+  .row.box.index-list
+    .row
+      .left-align.col-md-3
+        %h3.name= truncate(b.name, length: 50, escape: false)
+        %h4.institute= b.member.name
+        %h6 Updated: #{l(b.updated_at, format: :compact)}
+        %h5 Created: #{l(b.created_at, format: :compact)}
+      .left-align.content.col-md-7= sanitize truncate(b.content, length: 200, escape: false)
+      .col-md-2
+        = link_to 'View Post', b,:class => 'btn btn-secondary view-btn'
